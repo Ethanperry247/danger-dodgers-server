@@ -1,1 +1,0 @@
-print("Cole has been voted off the island!")

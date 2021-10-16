@@ -1,2 +1,6 @@
 fastapi[all]
 asyncpg
+sqlalchemy
+databases
+python-jose[cryptography]
+slowapi
