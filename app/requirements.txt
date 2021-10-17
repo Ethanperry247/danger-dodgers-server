@@ -1,6 +1,6 @@
 fastapi[all]
 asyncpg
 sqlalchemy
-databases
+databases[postgresql]
 python-jose[cryptography]
 slowapi

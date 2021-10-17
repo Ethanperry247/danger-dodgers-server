@@ -1,2 +1,1 @@
-uvicorn main:app --reload 
-uvicorn main:app --workers
+uvicorn app.main:main --reload
