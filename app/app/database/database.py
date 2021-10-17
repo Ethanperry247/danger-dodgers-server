@@ -38,5 +38,5 @@ async def shutdown():
     print("INFO:     Disconnecting from database.")
     await database.disconnect()
 
-def provide_connection():
+def provide_connection() -> databases.Database:
         return database

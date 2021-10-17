@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
         id UUID default uuid_generate_v4() PRIMARY KEY,
         username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
+        password TEXT UNIQUE NOT NULL,
         phone TEXT NOT NULL,
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL
@@ -34,3 +34,7 @@ CREATE TABLE hazard_area (
         PRIMARY KEY (id),
         FOREIGN KEY (hazard_id) REFERENCES hazard(id)
 );
+
+DROP INDEX IF EXISTS users_name;
+CREATE INDEX users_name
+ON users (id);
