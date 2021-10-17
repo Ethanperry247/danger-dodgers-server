@@ -10,7 +10,7 @@ CREATE TABLE users (
         id UUID default uuid_generate_v4() PRIMARY KEY,
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
-        phone_number TEXT NOT NULL,
+        phone TEXT NOT NULL,
         firstname VARCHAR(100) NOT NULL,
         lastname VARCHAR(100) NOT NULL
 );
