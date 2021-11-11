@@ -1,4 +1,7 @@
 scipy 
 numpy 
 pandas
+statistics
+geopy
+numpy_ext
 fastapi[all]
