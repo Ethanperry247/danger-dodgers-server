@@ -16,7 +16,7 @@ CREATE TABLE users (
 );
 
 DROP TABLE IF EXISTS hazard CASCADE;
-CREATE TABLE hazard (
+CREATE TABLE report (
         id UUID default uuid_generate_v4(),
         user_id UUID,
         risk_level integer,
@@ -28,7 +28,7 @@ CREATE TABLE hazard (
 );
 
 DROP TABLE IF EXISTS hazard_area CASCADE;
-CREATE TABLE hazard_area (
+CREATE TABLE report_area (
         id UUID,
         hazard_id UUID NOT NULL,
         PRIMARY KEY (id),

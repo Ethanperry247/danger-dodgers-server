@@ -28,23 +28,3 @@ async def root(request: Request):
     # await authenticate_user("ethanperry247@gmail.com", "pass")
     return {"Hello": "World"}
 
-@app.get("/hazards/", status_code=200)
-async def list_hazards():
-    return "Not yet implemented!"
-
-@app.get("/hazard/{id}", status_code=200)
-async def get_hazard():
-    return "Not yet implemented!"
-
-@app.post("/hazard/{id}", status_code=200)
-async def create_hazard():
-    return "Not yet implemented!"
-
-@app.patch("/hazard/{id}", status_code=200)
-async def update_hazard():
-    return "Not yet implemented!"
-
-@app.delete("/hazard/{id}", status_code=200)
-async def delete_hazard():
-    return "Not yet implemented!"
-
