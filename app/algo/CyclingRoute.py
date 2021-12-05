@@ -24,14 +24,10 @@ class CyclingRoute():
         load_dotenv()
         self.API_key = os.environ.get('KEY')
 
-        # script for returning elevation from lat, long, based on open elevation data
-    # which in turn is based on SRTM
     def get_elevation(lat, long):
         query = ('https://api.open-elevation.com/api/v1/lookup'
                  f'?locations={lat},{long}')
-        # json object, various ways you can extract value
         r = requests.get(query).json()
-        # one approach is to use pandas json functionality:
         elevation = pd.json_normalize(r, 'results')['elevation'].values[0]
         return elevation
 
