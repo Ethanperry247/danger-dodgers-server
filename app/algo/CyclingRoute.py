@@ -47,7 +47,7 @@ class CyclingRoute():
         lat_long_alt = []
         for coord in coords:
             lat_long_alt.append(
-                (coord[0], coord[1], get_elevation(coord[0], coord[1])))
+                (coord[0], coord[1], CyclingRoute.get_elevation(coord[0], coord[1])))
         df = pd.DataFrame(lat_long_alt, columns=[
                           "latitude", "longitude", "altitude"])
         df["time"] = [i+1 for i in range(len(df.index))]
