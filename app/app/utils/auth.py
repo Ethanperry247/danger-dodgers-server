@@ -24,13 +24,16 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 # Grab bearer token
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Will authenticate user against password hash in the db, and will return user id if so.
-async def authenticate_user(login: Login, db=Depends(database.provide_connection)):
-    valid_user = await db.fetch_one(query="SELECT * FROM users WHERE username=:username AND password = crypt(:password, password)", values={'username': login.username, 'password': login.password})
+async def auth(username: str, password: str, db):
+    valid_user = await db.fetch_one(query="SELECT * FROM users WHERE username=:username AND password = crypt(:password, password)", values={'username': username, 'password': password})
     if valid_user is None:
         return None
     else:
         return str(dict(valid_user)['id'])
+
+# Will authenticate user against password hash in the db, and will return user id if so.
+async def authenticate_user(login: Login, db=Depends(database.provide_connection)):
+    return await auth(login.username, login.password, db)
 
 # Will create a user JWT token.
 async def create_access_token(data: dict, expiry: Optional[timedelta] = None):
@@ -60,7 +63,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db=Depends(datab
     except JWTError:
         raise credentials_exception
     user = await db.fetch_one(
-        "SELECT firstname, lastname, username, phone FROM users WHERE id=:id", values={"id": uuid.UUID(id)})
+        "SELECT firstname, lastname, username, phone, id FROM users WHERE id=:id", values={"id": uuid.UUID(id)})
     if user is None:
         raise credentials_exception
     return dict(user)

@@ -4,3 +4,6 @@ sqlalchemy
 databases[postgresql]
 python-jose[cryptography]
 slowapi
+numpy_ext
+geopy
+python-dotenv

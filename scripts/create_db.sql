@@ -15,7 +15,7 @@ CREATE TABLE users (
         lastname VARCHAR(100) NOT NULL
 );
 
-DROP TABLE IF EXISTS hazard CASCADE;
+DROP TABLE IF EXISTS report CASCADE;
 CREATE TABLE report (
         id UUID default uuid_generate_v4(),
         user_id UUID,
@@ -23,18 +23,31 @@ CREATE TABLE report (
         frequency integer NOT NULL,
         type hazard_type,
         description TEXT,
+        title TEXT,
+        latitude Decimal(8,6) NOT NULL,
+        longitude Decimal(9,6) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY(user_id) REFERENCES users(id),
+        timestamp timestamp default current_timestamp
+);
+
+DROP TABLE IF EXISTS analysis CASCADE;
+CREATE TABLE analysis (
+        id UUID default uuid_generate_v4(),
+        user_id UUID,
+        analysis TEXT,
+        public boolean,
+        timestamp timestamp default current_timestamp,
         PRIMARY KEY (id),
         FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
-DROP TABLE IF EXISTS hazard_area CASCADE;
-CREATE TABLE report_area (
-        id UUID,
-        hazard_id UUID NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY (hazard_id) REFERENCES hazard(id)
-);
-
+-- Indexes for query optimization on searches.
+DROP INDEX IF EXISTS report_latitude;
+CREATE INDEX report_latitude ON report (latitude);
+DROP INDEX IF EXISTS report_longitude;
+CREATE INDEX report_longitude ON report (longitude);
 DROP INDEX IF EXISTS users_name;
 CREATE INDEX users_name
 ON users (id);
+
