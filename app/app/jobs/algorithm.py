@@ -20,11 +20,13 @@ class HazardWeights():
     VelocityMulti = [1+i*.1 for i in range(1, 11)]
     AccMulti = [1.1, 1.3, 1.4, 1.6, 1.7, 1.8, 1.8, 1.9, 1.9, 2.0]
 
-    def __init__(self, csv=None, js=None, running_avg_pts=3):
+    def __init__(self, csv=None, js=None, py=None, running_avg_pts=3):
         if (csv):
             self.data = pd.read_csv(csv)
         elif (js):
             self.data = pd.DataFrame(json.loads(js))
+        elif (py):
+            self.data = pd.DataFrame(py)
         else:
             raise "No data was provided."
         self.running_avg_points = running_avg_pts
@@ -49,7 +51,10 @@ class HazardWeights():
         s2 = geopy.distance.distance(loc2, loc3).miles
         s3 = geopy.distance.distance(loc1, loc3).miles
         A = HazardWeights.herons_formula(s1, s2, s3)
-        radius = 2*A/s3
+        if (s3 == 0 or s2 == 0 or s1 == 0):
+            radius = 0
+        else:
+            radius = 2*A/s3
         return radius
 
     def diff_index(a, b, limit):
@@ -118,6 +123,10 @@ class HazardWeights():
                                             self.data["runAvgAccel"], self.data["turnRadius"])
         self.data.at[0, "hazard"] = 0
 
+    def to_response_format(self):
+        return json.dumps(self.data[['latitude', 'longitude', 'hazard']].to_dict(
+                    'records'))
+
     def to_json(self, filename="weights.json", minimal=True):
         if minimal:
             with open(filename, 'w') as outfile:
@@ -133,19 +142,6 @@ class HazardWeights():
         else:
             self.data.to_csv(filename)
 
-    def convert_js_to_py_format(res):
-        jsonpoints = []
-        for i in range(len(res['latitude'])):
-                jsonpoints.append({
-                        "latitude": res['latitude'][str(i)],
-                        "longitude": res['longitude'][str(i)],
-                        "weight": res['hazard'][str(i)],
-                })
-
-        return json.dumps(jsonpoints)
-
-    # def convert_py_to_js_format():
-
 """
 # Example run:
 
@@ -155,4 +151,5 @@ hazards.to_csv("my_weights.csv")
 """
 
 # hazards = HazardWeights("res.csv")
-hazards = HazardWeights(js="""[{"latitude": 39.74007, "longitude": -105.22777, "altitude": 0.0, "time": 0}, {"latitude": 39.74007, "longitude": -105.22777, "altitude": 0.0, "time": 0}, {"latitude": 39.74007, "longitude": -105.22777, "altitude": 0.0, "time": 0}, {"latitude": 39.74007, "longitude": -105.22777, "altitude": 0.0, "time": 0}]""")
+# hazards = HazardWeights(js="""[{"latitude": 39.74007, "longitude": -105.22777, "altitude": 0.1, "time": 1}, {"latitude": 39.74097, "longitude": -105.22797, "altitude": 0.1, "time": 2}, {"latitude": 39.74107, "longitude": -105.22877, "altitude": 0.1, "time": 3}, {"latitude": 39.74207, "longitude": -105.22977, "altitude": 0.1, "time": 4}]""")
+# hazards.to_response_format()
