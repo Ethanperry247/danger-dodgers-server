@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  app:
+    ports: 
+      - "80:80"
+    build: './app'
+    depends_on: 
+      - sql
+  sql:
+    image: postgres:13.4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
