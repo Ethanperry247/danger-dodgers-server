@@ -1,8 +1,18 @@
 import databases
 import sqlalchemy
+# import os
 
+# url = os.environ.get('DATABASE_URL')
+
+# print(url)
+# Dev: postgresql://postgres:postgres@127.0.0.1:5432
+# url = 'postgresql://postgres:postgres@0.0.0.0:5432'
+import os
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = 'postgresql://postgres:postgres@0.0.0.0:5432' if DATABASE_URL is None else DATABASE_URL
 # DEV database currently set up.
-DATABASE_URL = "postgresql://postgres:postgres@127.0.0.1:5432/dev"
+DATABASE_URL = f"{DATABASE_URL}/dev"
 database = databases.Database(DATABASE_URL)
 
 async def startup():

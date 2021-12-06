@@ -7,3 +7,6 @@ slowapi
 numpy_ext
 geopy
 python-dotenv
+pydantic
+uvicorn
+pandas

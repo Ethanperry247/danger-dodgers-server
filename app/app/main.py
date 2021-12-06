@@ -16,6 +16,12 @@ from dotenv import load_dotenv
 # Loads key value pairs from the environment.
 load_dotenv()
 
+# import os
+
+# url = os.environ.get('DATABASE_URL')
+
+# print(url)
+
 app = FastAPI()
 limiter.attach_limiter(app)
 app.add_middleware(
