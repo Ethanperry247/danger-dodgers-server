@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import uvicorn
+import os
 
 from .utils import limiter
 
@@ -65,3 +67,5 @@ async def root(request: Request):
     # print(await request.json())
     return {"Hello": "World"}
 
+# if __name__ == '__main__':
+#     uvicorn.run(app, port=os.environ.get('PORT'), host='0.0.0.0')

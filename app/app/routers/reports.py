@@ -100,7 +100,7 @@ async def get_report_by_report_id(id: str, user=Depends(auth.get_current_user), 
 
 
 @router.post("/", status_code=200, response_model=Report)
-@limit.limit("15/minute")
+@limit.limit("10/minute")
 async def create_report(request: Request, report: Report, user=Depends(auth.get_current_user), db=Depends(database.provide_connection)):
     async with db.transaction():
         type_value = None if report.type is None else report.type.value

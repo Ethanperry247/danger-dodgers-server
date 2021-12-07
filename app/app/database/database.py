@@ -12,7 +12,7 @@ import os
 DATABASE_URL = os.environ.get('DATABASE_URL')
 DATABASE_URL = 'postgresql://postgres:postgres@0.0.0.0:5432' if DATABASE_URL is None else DATABASE_URL
 # DEV database currently set up.
-DATABASE_URL = f"{DATABASE_URL}/dev"
+# DATABASE_URL = f"{DATABASE_URL}"
 database = databases.Database(DATABASE_URL)
 
 async def startup():
